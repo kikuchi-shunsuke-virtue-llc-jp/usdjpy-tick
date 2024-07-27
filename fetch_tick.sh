@@ -6,9 +6,10 @@ datatype=tick
 for y in {2007..2023}; do
 	for m in {01..12}; do
 		d=$(date -v"${y}"y -v"${m}"m -v01d -v+1m -v-1d +%d)
-		fn="${ccyccy}-${y}-${m}-01-${y}-${m}-${d}-${datatype}.csv"
+		fn="download/${ccyccy}-${datatype}-${y}-${m}-01-${y}-${m}-${d}.csv"
 		if [ ! -f "${fn}" ]; then
-			npx dukascopy-node -i ${ccyccy} -from ${y}-${m}-01 -to ${y}-${m}-${d} -t ${datatype} -f csv
+			npx dukascopy-node -i ${ccyccy} -from ${y}-${m}-01 -to ${y}-${m}-${d} -t ${datatype} -f csv &
 		fi
 	done
+	wait
 done
